@@ -31,7 +31,8 @@ findTypeDecl :: Query -> ParsedSource -> [SearchResult]
 findTypeDecl q src =
   matchDecls src $ \decl ->
     fromMaybe False . match decl $
-         _TyClD . _DataDecl . _1 . _unloc . to (nameQuery q)
+         _TyClD . _ClassDecl . _2 . _unloc . to (nameQuery q)
+      <> _TyClD . _DataDecl . _1 . _unloc . to (nameQuery q)
       <> _TyClD . _SynDecl . _1 . _unloc . to (nameQuery q)
 
 findValueDecl :: Query -> ParsedSource -> [SearchResult]
